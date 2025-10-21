@@ -1,0 +1,55 @@
+# Files to exclude from the VSIX package
+
+# Source files (only include compiled output)
+src/**
+test/**
+examples/**
+docs/**
+
+# Build and config files
+.vscode/**
+.github/**
+.husky/**
+tsconfig.json
+jest.config.js
+.eslintrc.json
+.eslintignore
+.prettierrc
+.editorconfig
+.gitignore
+
+# Documentation (except README)
+CONTRIBUTING.md
+RELEASE_PROCESS.md
+CODE_OF_CONDUCT.md
+summary.txt
+
+# Development files
+*.test.ts
+*.spec.ts
+**/__mocks__/**
+coverage/**
+node_modules/**
+.DS_Store
+
+# Git
+.git/**
+.gitignore
+
+# Logs and temp files
+*.log
+*.vsix
+
+# Lock files
+package-lock.json
+npm-debug.log*
+yarn.lock
+
+# Only include what's needed:
+# - out/** (compiled JavaScript)
+# - README.md
+# - LICENSE
+# - CHANGELOG.md
+# - SECURITY.md
+# - package.json
+

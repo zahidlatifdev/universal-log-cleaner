@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Sample HTML</title>
+    <!-- This comment might be removed -->
+  </head>
+
+  <body>
+    <h1>Sample Page</h1>
+
+    <!-- @keep - This should be preserved -->
+    <p>Content here</p>
+
+    <script>
+      console.log('Page loaded');
+
+      function onClick() {
+        console.debug('Button clicked');
+        // Do something
+      }
+
+      // @preserve
+      console.log('Important initialization');
+
+      console.error('This should be removed');
+    </script>
+  </body>
+</html>

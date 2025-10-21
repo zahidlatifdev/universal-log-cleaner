@@ -1,0 +1,285 @@
+{
+  "name": "universal-log-cleaner",
+  "displayName": "Universal Log Cleaner",
+  "description": "Privacy-first, offline-only multi-language log and comment cleaner for VS Code",
+  "version": "1.0.0",
+  "publisher": "zahidlatifdev",
+  "icon": "icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0",
+    "node": ">=20.0.0"
+  },
+  "categories": [
+    "Formatters",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "log",
+    "cleaner",
+    "console",
+    "debug",
+    "privacy",
+    "offline",
+    "multi-language"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "universalLogCleaner.cleanWorkspace",
+        "title": "Universal Log Cleaner: Clean Workspace"
+      },
+      {
+        "command": "universalLogCleaner.cleanFile",
+        "title": "Universal Log Cleaner: Clean Current File"
+      },
+      {
+        "command": "universalLogCleaner.preview",
+        "title": "Universal Log Cleaner: Preview Changes"
+      },
+      {
+        "command": "universalLogCleaner.undo",
+        "title": "Universal Log Cleaner: Undo Last Clean"
+      },
+      {
+        "command": "universalLogCleaner.openSettings",
+        "title": "Universal Log Cleaner: Open Settings"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "universalLogCleaner.preview",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Universal Log Cleaner",
+      "properties": {
+        "universalLogCleaner.languages": {
+          "type": "array",
+          "default": [
+            "javascript",
+            "typescript",
+            "python",
+            "java",
+            "php",
+            "csharp",
+            "go",
+            "rust",
+            "swift",
+            "c",
+            "cpp",
+            "ruby",
+            "dart",
+            "shellscript",
+            "sql",
+            "html",
+            "css",
+            "scss",
+            "less",
+            "markdown"
+          ],
+          "description": "List of languages to process"
+        },
+        "universalLogCleaner.mode": {
+          "type": "string",
+          "enum": [
+            "delete",
+            "comment",
+            "preview"
+          ],
+          "default": "preview",
+          "description": "Default cleaning mode: delete removes logs, comment comments them out, preview shows changes"
+        },
+        "universalLogCleaner.removeCommentedLogs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Remove logs that are already commented out"
+        },
+        "universalLogCleaner.maxFileSizeKB": {
+          "type": "number",
+          "default": 500,
+          "description": "Maximum file size in KB to process (safety limit)"
+        },
+        "universalLogCleaner.whitelistTags": {
+          "type": "array",
+          "default": [
+            "@keep",
+            "@preserve"
+          ],
+          "description": "Tags that prevent log removal when present in comments"
+        },
+        "universalLogCleaner.exclude": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/out/**",
+            "**/build/**",
+            "**/.git/**",
+            "**/vendor/**",
+            "**/target/**"
+          ],
+          "description": "Glob patterns for files/folders to exclude"
+        },
+        "universalLogCleaner.dryRunDefault": {
+          "type": "boolean",
+          "default": true,
+          "description": "Always run in dry-run mode first (recommended)"
+        },
+        "universalLogCleaner.htmlCssHandling": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable special handling for HTML and CSS files"
+        },
+        "universalLogCleaner.logTypes": {
+          "type": "object",
+          "default": {
+            "javascript": {
+              "log": true,
+              "debug": true,
+              "info": true,
+              "warn": true,
+              "error": true,
+              "trace": true,
+              "table": true,
+              "dir": true,
+              "assert": true,
+              "count": true,
+              "group": true,
+              "time": true
+            },
+            "debugger": true,
+            "allOtherLogs": true
+          },
+          "description": "Selective log types to remove - control which console methods and log types to clean",
+          "properties": {
+            "javascript": {
+              "type": "object",
+              "description": "JavaScript/TypeScript console methods",
+              "properties": {
+                "log": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.log()"
+                },
+                "debug": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.debug()"
+                },
+                "info": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.info()"
+                },
+                "warn": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.warn()"
+                },
+                "error": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.error()"
+                },
+                "trace": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.trace()"
+                },
+                "table": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.table()"
+                },
+                "dir": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.dir()"
+                },
+                "assert": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.assert()"
+                },
+                "count": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.count()"
+                },
+                "group": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.group()"
+                },
+                "time": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Remove console.time()"
+                }
+              }
+            },
+            "debugger": {
+              "type": "boolean",
+              "default": true,
+              "description": "Remove debugger statements"
+            },
+            "allOtherLogs": {
+              "type": "boolean",
+              "default": true,
+              "description": "Remove logs in other languages (print, System.out, etc.)"
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run build",
+    "test": "jest",
+    "lint": "eslint src --ext ts && prettier --check .",
+    "lint:fix": "eslint src --ext ts --fix && prettier --write .",
+    "package": "npm run package:vsce && npm run package:ovsx",
+    "package:vsce": "vsce package --out dist/universal-log-cleaner-${npm_package_version}.vsix",
+    "package:ovsx": "cp dist/universal-log-cleaner-${npm_package_version}.vsix dist/universal-log-cleaner-${npm_package_version}-ovsx.vsix",
+    "version:patch": "npm version patch && npm run changelog:version",
+    "version:minor": "npm version minor && npm run changelog:version",
+    "version:major": "npm version major && npm run changelog:version",
+    "changelog:version": "echo 'Remember to update CHANGELOG.md Unreleased → new version section'",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.5",
+    "@types/node": "18.18.5",
+    "@types/vscode": "1.75.0",
+    "@typescript-eslint/eslint-plugin": "6.7.5",
+    "@typescript-eslint/parser": "6.7.5",
+    "@vscode/vsce": "2.22.0",
+    "eslint": "8.51.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-plugin-prettier": "5.0.1",
+    "husky": "8.0.3",
+    "jest": "29.7.0",
+    "ovsx": "0.8.3",
+    "prettier": "3.0.3",
+    "ts-jest": "29.1.1",
+    "typescript": "5.2.2"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zahidlatifdev/universal-log-cleaner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zahidlatifdev/universal-log-cleaner/issues"
+  },
+  "homepage": "https://github.com/zahidlatifdev/universal-log-cleaner#readme"
+}
